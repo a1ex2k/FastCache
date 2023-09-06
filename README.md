@@ -1,10 +1,10 @@
 # FastCache
 
-7x-10x faster alternative to MemoryCache. A high-performance, lighweight (8KB dll) and [thread-safe](Atomic.md) memory cache for .NET Core (.NET 6 and later)
+7x-10x faster alternative to MemoryCache. A high-performance, lighweight and [thread-safe](Atomic.md) memory cache for .NET Core (.NET 6 and later)
 Basically it's just a `ConcurrentDictionary` with expiration.
 
-`FastCache` - just a cache described below.
-'ActionedFastCache' - derived class that has an `Action<Tkey, TValue>` and `Func<Task, Tkey, TValue>` run on entry remove.
+* `FastCache` - just a cache described below.
+* `ActionedFastCache` - derived class that has an `Action<Tkey, TValue>` invoked on entry remove.
 
 
 ## Benchmarks

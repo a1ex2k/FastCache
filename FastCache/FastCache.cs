@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Jitbit.Utils
+namespace FastCache
 {
 	/// <summary>
 	/// faster MemoryCache alternative. basically a concurrent dictionary with expiration
@@ -215,7 +215,7 @@ namespace Jitbit.Utils
 		/// </summary>
 		/// <param name="key">The key of the element to remove</param>
 		/// <param name="value">Contains the object removed or the default value if not found</param>
-		public bool TryRemove(TKey key, out TValue value)
+		public virtual bool TryRemove(TKey key, out TValue value)
 		{
 			bool res = _dict.TryRemove(key, out var ttlValue) && !ttlValue.IsExpired();
 			value = res ? ttlValue.Value : default(TValue);
