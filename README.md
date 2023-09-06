@@ -1,13 +1,11 @@
 # FastCache
 
 7x-10x faster alternative to MemoryCache. A high-performance, lighweight (8KB dll) and [thread-safe](Atomic.md) memory cache for .NET Core (.NET 6 and later)
-
-[![NuGet version](https://badge.fury.io/nu/Jitbit.FastCache.svg)](https://badge.fury.io/nu/Jitbit.FastCache)
-[![.NET](https://github.com/jitbit/FastCache/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jitbit/FastCache/actions/workflows/dotnet.yml)
-
-## TL;DR
-
 Basically it's just a `ConcurrentDictionary` with expiration.
+
+`FastCache` - just a cache described below.
+'ActionedFastCache' - derived class that has an `Action<Tkey, TValue>` and `Func<Task, Tkey, TValue>` run on entry remove.
+
 
 ## Benchmarks
 
@@ -47,12 +45,6 @@ Compared to `System.Runtime.Caching.MemoryCache` and `Microsoft.Extensions.Cachi
 
 ## Usage
 
-Install via nuget
-
-```
-Install-Package Jitbit.FastCache
-```
-
 Then use
 
 ```csharp
@@ -71,13 +63,3 @@ cache.GetOrAdd(
 	ttl: TimeSpan.FromMilliseconds(100));
 
 ```
-
-## Tradeoffs
-
-FastCache uses `Environment.TickCount` to monitor items' TTL. `Environment.TickCount` is 104x times faster than using `DateTime.Now` and 26x times faster than `DateTime.UtcNow`.
-
-~~But `Environment.TickCount` is limited to `Int32`. Which means it resets to `int.MinValue` once overflowed. This is not a problem, we do have a workaround for that. However this means you cannot cache stuff for more than 25 days (2.4 billion milliseconds).~~
-
-The above is no longer valid, we have switched to .NET 6 targeting and now use `TickCount64` which is free of this problem.
-
-Another tradeoff: MemoryCache watches memory usage, and evicts items once it senses memory pressure. **FastCache does not do any of that** it is up to you to keep your caches reasonably sized. After all, it's just a dictionary.
