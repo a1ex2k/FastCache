@@ -14,7 +14,7 @@ public class ActionedFastCache<TKey, TValue> : FastCache<TKey, TValue>
     /// Initializes a new empty instance of <see cref="ActionedFastCache{TKey,TValue}"/>
     /// </summary>
     /// <param name="cleanupJobInterval">cleanup interval in milliseconds, default is 10000</param>
-    public ActionedFastCache(Action<TKey, TValue> actionOnRemove, int cleanupJobInterval = 10000) : base(cleanupJobInterval)
+    public ActionedFastCache(Action<TKey, TValue> actionOnRemove, TimeSpan cleanupJobInterval, TimeSpan slidingInterval) : base(cleanupJobInterval, slidingInterval)
     {
         _action = actionOnRemove;
     }
